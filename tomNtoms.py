@@ -39,16 +39,19 @@ class tomNtoms():
         redirect_url = extract_redirect(content)
 
         next_url = 'http://172.17.0.1{}'.format(redirect_url)
-        print "url to redirect: " + next_url
+        
 
         try:
-            urllib2.urlopen(next_url)
+            contentRedirect = urllib2.urlopen(next_url)
         except urllib2.HTTPError, e:
             print e.code
         except urllib2.URLError, e:
             print e.args
 
-        user, password = extract_user_password( content )
+        redirect_content =  contentRedirect.read()
+        #print redirect_content
+        
+        user, password = extract_user_password( redirect_content )
 
         self.__user = user
         self.__password = password
